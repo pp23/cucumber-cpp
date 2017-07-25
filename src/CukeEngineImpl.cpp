@@ -1,6 +1,7 @@
 #include "cucumber-cpp/internal/CukeEngineImpl.hpp"
 
 #include <boost/foreach.hpp>
+#include <fstream>
 
 namespace cucumber {
 namespace internal {
@@ -92,7 +93,11 @@ void CukeEngineImpl::endScenario(const tags_type & /*tags*/) {
 }
 
 std::string CukeEngineImpl::snippetText(const std::string & keyword, const std::string & name, const std::string & /*multilineArgClass*/) const {
-    return cukeCommands.snippetText(keyword, name);
+    std::string snippet = cukeCommands.snippetText(keyword, name);
+    std::ofstream snippetFile("snippet.cpp", std::ios::out | std::ios::app);
+    snippetFile << snippet;
+    snippetFile.close();
+    return snippet;
 }
 
 
